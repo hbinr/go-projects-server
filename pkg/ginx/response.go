@@ -1,8 +1,10 @@
-package response
+package ginx
 
 import (
-	"github.com/gin-gonic/gin"
+	"go-projects-server/pkg/e"
 	"net/http"
+
+	"github.com/gin-gonic/gin"
 )
 
 type Response struct {
@@ -11,11 +13,7 @@ type Response struct {
 	Msg  string      `json:"msg"`
 }
 
-const (
-	ERROR   = 7
-	SUCCESS = 0
-)
-
+// Result  封装返回
 func Result(code int, data interface{}, msg string, c *gin.Context) {
 	// 开始时间
 	c.JSON(http.StatusOK, Response{
@@ -25,30 +23,37 @@ func Result(code int, data interface{}, msg string, c *gin.Context) {
 	})
 }
 
+// Ok 响应成功
 func Ok(c *gin.Context) {
-	Result(SUCCESS, map[string]interface{}{}, "操作成功", c)
+	Result(e.SUCCESS, map[string]interface{}{}, "操作成功", c)
 }
 
+// OkWithMessage 响应成功且只携带信息
 func OkWithMessage(message string, c *gin.Context) {
-	Result(SUCCESS, map[string]interface{}{}, message, c)
+	Result(e.SUCCESS, map[string]interface{}{}, message, c)
 }
 
+// OkWithData 响应成功且只携带数据
 func OkWithData(data interface{}, c *gin.Context) {
-	Result(SUCCESS, data, "操作成功", c)
+	Result(e.SUCCESS, data, e.GetMsg(e.SUCCESS), c)
 }
 
+// OkDetailed 响应成功携带信息+数据
 func OkDetailed(data interface{}, message string, c *gin.Context) {
-	Result(SUCCESS, data, message, c)
+	Result(e.SUCCESS, data, message, c)
 }
 
+// Fail 响应失败
 func Fail(c *gin.Context) {
-	Result(ERROR, map[string]interface{}{}, "操作失败", c)
+	Result(e.ERROR, map[string]interface{}{}, e.GetMsg(e.ERROR), c)
 }
 
+// FailWithMessage 响应失败且携带错误信息
 func FailWithMessage(message string, c *gin.Context) {
-	Result(ERROR, map[string]interface{}{}, message, c)
+	Result(e.ERROR, map[string]interface{}{}, message, c)
 }
 
+// FailWithDetailed 响应失败且携带错误信息+数据
 func FailWithDetailed(code int, data interface{}, message string, c *gin.Context) {
 	Result(code, data, message, c)
 }

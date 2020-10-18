@@ -1,6 +1,7 @@
 package router
 
 import (
+	"go-projects-server/internal/app/api"
 	"go-projects-server/pkg/logger"
 	"net/http"
 
@@ -21,6 +22,7 @@ func SetupRouter(mode string) *gin.Engine {
 		c.String(http.StatusOK, "test success...")
 	})
 
+	r.GET("/register", api.Register)
 	// 404
 	r.NoRoute(func(c *gin.Context) {
 		c.JSON(http.StatusOK, gin.H{

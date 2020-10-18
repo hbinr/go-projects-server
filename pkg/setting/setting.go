@@ -10,7 +10,7 @@ import (
 
 var Conf = new(AppConfig)
 
-const defaultConfigFile = "./configs/config.yaml"
+const defaultConfigFile = "./config/config.yaml"
 
 // init 初始化配置文件
 func init() {
