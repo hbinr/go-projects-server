@@ -6,7 +6,7 @@
 package main
 
 import (
-	"fmt"
+	"go-projects-server/internal/app"
 	"go-projects-server/internal/app/user/controller"
 	"go-projects-server/internal/app/user/dao"
 	"go-projects-server/internal/app/user/service"
@@ -19,19 +19,16 @@ import (
 
 // Injectors from wire.go:
 
-func initWebApp() (*WebApp, error) {
+func initWebApp() (*app.WebApp, error) {
 	config, err := conf.Init()
 	if err != nil {
-		fmt.Println("conf init failed,err:", err)
 		return nil, err
 	}
-	engine, err := InitEngine(config)
+	if err := log.Init(config); err != nil {
+		return nil, err
+	}
+	engine, err := app.InitEngine(config)
 	if err != nil {
-		fmt.Println("engine init failed,err:", err)
-		return nil, err
-	}
-	if err = log.Init(config); err != nil {
-		fmt.Println("log init failed,err:", err)
 		return nil, err
 	}
 	db := database.Init(config)
@@ -45,10 +42,10 @@ func initWebApp() (*WebApp, error) {
 	if err != nil {
 		return nil, err
 	}
-	webApp := &WebApp{
-		Engine: engine,
-		config: config,
-		user:   userController,
+	webApp := &app.WebApp{
+		Engine:   engine,
+		Config:   config,
+		UserCtrl: userController,
 	}
 	return webApp, nil
 }

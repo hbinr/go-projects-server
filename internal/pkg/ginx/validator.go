@@ -10,8 +10,8 @@ import (
 	"github.com/pkg/errors"
 )
 
-// BindAndValid binds and validates request
-func BindAndValid(c *gin.Context, params interface{}) error {
+// DefaultGetValidParams binds and validates params
+func DefaultGetValidParams(c *gin.Context, params interface{}) error {
 	if err := c.ShouldBind(params); err != nil {
 		return err
 	}

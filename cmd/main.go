@@ -1,41 +1,23 @@
 package main
 
-import (
-	"fmt"
-	"go-projects-server/internal/app/user/controller"
-	"go-projects-server/pkg/conf"
-	"go-projects-server/pkg/log"
+// @title 项目标题
+// @version 0.0.1
+// @description 这是一个gin web开发脚手架
+// @termsOfService http://swagger.io/terms/
 
-	"github.com/gin-gonic/gin"
-)
+// @contact.name 这里写联系人信息
+// @contact.url http://www.swagger.io/support
+// @contact.email support@swagger.io
 
+// @license.name Apache 2.0
+// @license.url http://www.apache.org/licenses/LICENSE-2.0.html
+
+// @host 127.0.0.1
+// @BasePath /api/v1
 func main() {
 	webApp, err := initWebApp()
 	if err != nil {
 		panic(err)
 	}
 	webApp.Start()
-}
-
-// WebApp represent a web application
-type WebApp struct {
-	*gin.Engine
-	config *conf.Config
-	user   *controller.UserController
-}
-
-// InitEngine 初始化gin
-func InitEngine(c *conf.Config) (*gin.Engine, error) {
-	if c.Mode == gin.ReleaseMode {
-		gin.SetMode(gin.ReleaseMode) // gin设置成发布模式
-	}
-	r := gin.New()
-	r.Use(log.GinLogger(), log.GinRecovery(true)) // 设置公共中间件，可以自定义，举例所以使用了gin自带的
-	r.Group("/api")
-	return r, nil
-}
-
-// Start the web app
-func (e *WebApp) Start() {
-	e.Run(fmt.Sprintf(":%d", e.config.System.Port))
 }
