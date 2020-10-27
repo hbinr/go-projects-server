@@ -1,6 +1,6 @@
 package model
 
-// User 用户结构体
+// UserDto 用户结构体
 type UserDto struct {
 	Username string `json:"username" form:"username"` // 用户名
 	Email    string `json:"email" form:"email"`       // 邮箱
