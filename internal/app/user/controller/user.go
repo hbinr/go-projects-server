@@ -48,10 +48,8 @@ func (u *UserController) SignUp(c *gin.Context) {
 		uParam model.SignUpParam
 		uDto   model.UserDto
 	)
-	if err = uParam.BindValidParam(c); err != nil {
-		ginx.FailWithMessage(err.Error(), c)
-		return
-	}
+	ginx.OkWithMessage(ginx.BindAndValid(c, &uParam), c)
+
 	if err = gconv.Struct(uParam, &uDto); err != nil {
 		ginx.FailWithMessage("数据转换异常", c)
 		return

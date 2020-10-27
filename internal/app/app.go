@@ -33,7 +33,7 @@ func InitEngine(c *conf.Config) (*gin.Engine, error) {
 	r.Use(
 		middleware.GinLogger(),       // zap logger中间件
 		middleware.GinRecovery(true), // zap recovery中间件
-		middleware.Translation())     // 参数验证翻译中间件
+	)
 	r.Group("/api")
 	return r, nil
 }
